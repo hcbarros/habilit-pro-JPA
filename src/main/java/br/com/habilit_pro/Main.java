@@ -6,6 +6,8 @@ import br.com.habilit_pro.enums.Segmento;
 import br.com.habilit_pro.enums.TipoEmpresa;
 import br.com.habilit_pro.models.Empresa;
 import br.com.habilit_pro.models.Trilha;
+import br.com.habilit_pro.services.EmpresaService;
+import br.com.habilit_pro.services.TrilhaService;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -14,34 +16,36 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("".matches("(?=.*[a-zA-Z])[0-9a-zA-Z$*&@# ]"));
-
-        EntityManager em = new JpaConnectionFactory().getEntityManager();
+        JpaConnectionFactory factory = new JpaConnectionFactory();
 
         Empresa empresa = new Empresa("Senai", "13.004.510/0259-20", TipoEmpresa.MATRIZ, null,
                 Segmento.FUMO, "PE", "Recife", Regional.SUL);
 
-        em.getTransaction().begin();
-
-        em.persist(empresa);
-        em.getTransaction().commit();
+        EmpresaService empresaService = new EmpresaService(factory.getEntityManager());
+        empresaService.create(empresa);
 
         Trilha t = new Trilha(empresa, "Programador");
-        em.getTransaction().begin();
-        em.persist(t);
-        em.getTransaction().commit();
+        TrilhaService trilhaService = new TrilhaService(factory.getEntityManager());
+        trilhaService.create(t);
 
-        em.getTransaction().begin();
-        em.persist(new Trilha(empresa, "Programador"));
-        em.getTransaction().commit();
+        Empresa empresa2 = new Empresa("Senai2", "13.004.510/0317-34", TipoEmpresa.MATRIZ, null,
+                Segmento.FUMO, "PE", "Gravatá", Regional.SUL);
+        EmpresaService empresaService2 = new EmpresaService(factory.getEntityManager());
+        empresaService2.create(empresa2);
 
-        em.getTransaction().begin();
 
-        List<Trilha> list = em.createNativeQuery("select * from Trilha",
-                Trilha.class).getResultList();
+        Trilha t2 = new Trilha(empresa2, "Desenvolvedor");
+        TrilhaService trilhaService2 = new TrilhaService(factory.getEntityManager());
+        trilhaService2.update(1L, t2);
 
-        System.out.println(list);
 
-        em.close();
+        TrilhaService trilhaService4 = new TrilhaService(factory.getEntityManager());
+        trilhaService4.delete(1L);
+
+
+        TrilhaService trilhaService3 = new TrilhaService(factory.getEntityManager());
+        System.out.println(trilhaService3.listAll());
+
+
     }
 }

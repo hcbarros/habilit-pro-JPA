@@ -2,6 +2,7 @@ package br.com.habilit_pro.enums;
 
 public enum Status {
 
+    NAO_INICIADO("Curso não iniciado"),
     EM_ANDAMENTO("Curso em andamento"),
     EM_FASE_AVALIACAO("Em fase de avaliação"),
     FINALIZADO("Fase de avaliação finalizada");
