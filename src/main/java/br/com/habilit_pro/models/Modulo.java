@@ -5,11 +5,12 @@ import br.com.habilit_pro.enums.Status;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class Modulo {
 
     @NotNull(message = "O módulo deve estar associado a uma trilha!")
     @ManyToOne(cascade = {CascadeType.MERGE})
-    @JoinColumn(name = "trilha_id", referencedColumnName = "id")
+    @JoinColumn(name = "trilha_id_modulo", referencedColumnName = "id")
     private Trilha trilha;
 
 

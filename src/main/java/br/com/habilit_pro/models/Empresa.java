@@ -6,10 +6,11 @@ import br.com.habilit_pro.enums.Segmento;
 import br.com.habilit_pro.enums.TipoEmpresa;
 
 import javax.persistence.*;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -54,6 +55,9 @@ public class Empresa {
 
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
     private Set<Trilha> trilhas;
+
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
+    private Set<Trabalhador> trabalhadores;
 
 
     public Empresa() {
@@ -159,6 +163,14 @@ public class Empresa {
 
     public void setTrilhas(Set<Trilha> trilhas) {
         this.trilhas = trilhas;
+    }
+
+    public Set<Trabalhador> getTrabalhadores() {
+        return trabalhadores;
+    }
+
+    public void setTrabalhadores(Set<Trabalhador> trabalhadores) {
+        this.trabalhadores = trabalhadores;
     }
 
 

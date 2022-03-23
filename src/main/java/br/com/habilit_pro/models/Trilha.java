@@ -32,7 +32,7 @@ public class Trilha {
 
     @NotNull(message = "A trilha deve estar associada a uma empresa!")
     @ManyToOne(cascade = {CascadeType.MERGE})
-    @JoinColumn(name = "empresa_id", referencedColumnName = "id")
+    @JoinColumn(name = "empresa_id_trilha", referencedColumnName = "id")
     private Empresa empresa;
 
     @OneToMany(mappedBy = "trilha", cascade = CascadeType.REMOVE)
