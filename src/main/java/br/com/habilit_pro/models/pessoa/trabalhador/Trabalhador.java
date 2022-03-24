@@ -1,4 +1,8 @@
-package br.com.habilit_pro.models;
+package br.com.habilit_pro.models.pessoa.trabalhador;
+
+import br.com.habilit_pro.models.Empresa;
+import br.com.habilit_pro.models.pessoa.Pessoa;
+import br.com.habilit_pro.models.pessoa.trabalhador.ModuloTrabalhador;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,10 +13,6 @@ import java.util.Set;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Trabalhador extends Pessoa {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private String setor;
 
@@ -25,21 +25,21 @@ public class Trabalhador extends Pessoa {
     @JoinColumn(name = "empresa_id_trabalhador", referencedColumnName = "id")
     private Empresa empresa;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "modulo_trabalhador_id")
     private Set<ModuloTrabalhador> modulosTrabalhador;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(name="trabalhador_trilha",
-            joinColumns={@JoinColumn(name="trabalhador_id")},
-            inverseJoinColumns={@JoinColumn(name="trilha_id")})
-    private Set<Trilha> trilhas;
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+//    @JoinTable(name="trabalhador_trilha",
+//            joinColumns={@JoinColumn(name="trabalhador_id")},
+//            inverseJoinColumns={@JoinColumn(name="trilha_id")})
+//    private Set<Trilha> trilhas;
 
 
     public Trabalhador() {
         super();
         modulosTrabalhador = new HashSet<>();
-        trilhas = new HashSet<>();
+        //trilhas = new HashSet<>();
     }
 
     public Trabalhador(String nome, String cpf, Empresa empresa, String setor, String funcao) {
@@ -48,17 +48,17 @@ public class Trabalhador extends Pessoa {
         setSetor(setor);
         setFuncao(funcao);
         modulosTrabalhador = new HashSet<>();
-        trilhas = new HashSet<>();
+        //trilhas = new HashSet<>();
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public String getSetor() {
         return setor;
@@ -99,11 +99,24 @@ public class Trabalhador extends Pessoa {
         this.modulosTrabalhador = modulosTrabalhador;
     }
 
-    public Set<Trilha> getTrilhas() {
-        return trilhas;
+//    public Set<Trilha> getTrilhas() {
+//        return trilhas;
+//    }
+//
+//    public void setTrilhas(Set<Trilha> trilhas) {
+//        this.trilhas = trilhas;
+//    }
+
+
+    @Override
+    public String toString() {
+        return  "\nId: "+ getId() +
+                "\nNome: "+getNome() +
+                "\nCPF: "+getCpf() +
+                "\nEmpresa atual: "+empresa.getNome() +
+                "\nFunção atual: "+ funcao +
+                "\nInício da função atual: "+ dataAlteracao +
+                "\nSetor da empresa: "+setor;
     }
 
-    public void setTrilhas(Set<Trilha> trilhas) {
-        this.trilhas = trilhas;
-    }
 }

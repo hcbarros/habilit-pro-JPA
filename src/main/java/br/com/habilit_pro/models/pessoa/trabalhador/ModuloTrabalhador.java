@@ -1,12 +1,15 @@
-package br.com.habilit_pro.models;
+package br.com.habilit_pro.models.pessoa.trabalhador;
 
 import br.com.habilit_pro.enums.Avaliacao;
+import br.com.habilit_pro.models.Empresa;
+import br.com.habilit_pro.models.Modulo;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-public class ModuloTrabalhador {
+public class ModuloTrabalhador implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

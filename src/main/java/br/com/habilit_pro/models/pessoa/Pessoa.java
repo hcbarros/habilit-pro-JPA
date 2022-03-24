@@ -1,14 +1,12 @@
-package br.com.habilit_pro.models;
+package br.com.habilit_pro.models.pessoa;
 
 import br.com.habilit_pro.annotations.CPF;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @MappedSuperclass
-public abstract class Pessoa {
+public abstract class Pessoa implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +15,7 @@ public abstract class Pessoa {
     private String nome;
 
     @CPF
+    @Column(unique = true)
     private String cpf;
 
     public Pessoa() { }

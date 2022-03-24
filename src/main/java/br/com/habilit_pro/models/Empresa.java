@@ -4,17 +4,19 @@ import br.com.habilit_pro.annotations.CNPJ;
 import br.com.habilit_pro.enums.Regional;
 import br.com.habilit_pro.enums.Segmento;
 import br.com.habilit_pro.enums.TipoEmpresa;
+import br.com.habilit_pro.models.pessoa.trabalhador.Trabalhador;
 
 import javax.persistence.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Empresa {
+public class Empresa implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -176,7 +178,8 @@ public class Empresa {
 
     @Override
     public String toString() {
-        return "\nNome: " + nome +
+        return  "\nId: " + id +
+                "\nNome: " + nome +
                 "\nCNPJ: " + cnpj +
                 "\nTipo da empresa: " + tipo.getNome() +
                 (tipo == TipoEmpresa.FILIAL ? "\nNome da filial: " + nomeFilial : "") +

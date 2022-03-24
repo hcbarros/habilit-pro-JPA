@@ -1,16 +1,19 @@
 package br.com.habilit_pro.models;
 
+import br.com.habilit_pro.dao.TrilhaDAO;
 import br.com.habilit_pro.enums.Satisfacao;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Entity
-public class Trilha {
+public class Trilha implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +22,8 @@ public class Trilha {
     @NotNull(message = "A ocupação não deve ser nula!")
     private String ocupacao;
 
-    @NotNull(message = "O nome da trilha não deve ser nulo!")
     private String nome;
 
-    @NotNull(message = "O apelido da trilha não deve ser nulo!")
     private String apelido;
 
     @Enumerated(EnumType.STRING)
