@@ -18,30 +18,32 @@ import br.com.habilit_pro.services.UsuarioService;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+
 public class Main {
 
     public static void main(String[] args) {
 
-        JpaConnectionFactory factory = new JpaConnectionFactory();
 
-        TrilhaService trilhaService = new TrilhaService(factory.getEntityManager());
-
-
-
-
-        Empresa empresa = new Empresa("Senai", "13.004.510/0259-20", TipoEmpresa.MATRIZ, null,
-                Segmento.FUMO, "PE", "Recife", Regional.SUL);
-
-        EmpresaService empresaService = new EmpresaService(factory.getEntityManager());
-        empresaService.create(empresa);
-
-        Trilha t = new Trilha(empresa, "Programador");
-        trilhaService = new TrilhaService(factory.getEntityManager());
-        trilhaService.create(t);
-
-        trilhaService = new TrilhaService(factory.getEntityManager());
-
-        System.out.println(trilhaService.listAll());
+//        JpaConnectionFactory factory = new JpaConnectionFactory();
+//
+//        TrilhaService trilhaService = new TrilhaService(factory.getEntityManager());
+//
+//        Empresa empresa = new Empresa("Senai", "13.004.510/0259-20", TipoEmpresa.MATRIZ, null,
+//                Segmento.FUMO, "PE", "Recife", Regional.SUL);
+//
+//        EmpresaService empresaService = new EmpresaService(factory.getEntityManager());
+//        empresaService.create(empresa);
+//
+//        Trilha t = new Trilha(empresa, "Programador");
+//        trilhaService = new TrilhaService(factory.getEntityManager());
+//        trilhaService.create(t);
+//
+//        trilhaService = new TrilhaService(factory.getEntityManager());
+//
+//        System.out.println(trilhaService.listAll());
+//
+//        UsuarioService usuarioService = new UsuarioService(factory.getEntityManager());
+//        System.out.println(usuarioService.listAll());
 
 //
 //        Empresa empresa2 = new Empresa("Senai2", "13.004.510/0317-34", TipoEmpresa.MATRIZ, null,

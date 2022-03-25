@@ -1,6 +1,5 @@
 package br.com.habilit_pro.models;
 
-import br.com.habilit_pro.dao.TrilhaDAO;
 import br.com.habilit_pro.enums.Satisfacao;
 
 import javax.persistence.*;
@@ -86,7 +85,9 @@ public class Trilha implements Serializable {
     }
 
     public void setNome(long count) {
-        nome = ocupacao + empresa.getNome() + (count + 1) + LocalDate.now().getYear();
+        nome = ocupacao.replace(" ","_") +
+                empresa.getNome().replace(" ","_") +
+                (count + 1) + LocalDate.now().getYear();
     }
 
     public String getApelido() {
@@ -94,7 +95,7 @@ public class Trilha implements Serializable {
     }
 
     public void setApelido(long count) {
-        apelido = ocupacao + (count + 1);
+        apelido = ocupacao.replace(" ","_") + (count + 1);
     }
 
     public Satisfacao getSatisfacao() {
@@ -125,12 +126,12 @@ public class Trilha implements Serializable {
 
     @Override
     public String toString() {
-        return "\nNome da empresa: "+empresa.getNome() +
-                "\nCNPJ da empresa: "+empresa.getCnpj() +
-                "\nId da trilha: "+id +
-                "\nNome da trilha: "+nome +
-                "\nApelido da trilha: "+apelido +
-                "\nOcupação: "+ocupacao +
+        return "\nId da trilha: "+id +
+               "\nNome da trilha: "+nome +
+               "\nApelido da trilha: "+apelido +
+               "\nOcupação: "+ocupacao +
+               "\nNome da empresa: "+empresa.getNome() +
+               "\nCNPJ da empresa: "+empresa.getCnpj() +
                 (satisfacao == null ? "" : "\nNível de satisfação: "+ satisfacao.getNivel()) +
                 (anotacoes == null ? "" : "\nAnotações: "+ anotacoes);
     }

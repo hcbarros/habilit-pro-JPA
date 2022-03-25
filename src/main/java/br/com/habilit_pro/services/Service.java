@@ -31,13 +31,17 @@ public abstract class Service<T, I extends Serializable> {
     }
 
     public T getById(I id) {
-        getBeginTransaction();
-        T t =  dao.getById(id);
-        commitAndCloseTransaction();
-        if(t == null) {
-            throw new RuntimeException("Entidade '"+nClass+"' não encontrada!");
+        LOG.info("Preparação para retornar entidade '"+nClass+"' pelo ID");
+        try {
+            getBeginTransaction();
+            T t = dao.getById(id);
+            commitAndCloseTransaction();
+            return t;
         }
-        return t;
+        catch (Exception ex) {
+            LOG.error("ERRO: "+ex.getMessage());
+            throw new RuntimeException("Ocorreu o seguinte erro: "+ex.getMessage());
+        }
     }
 
     public List<T> listAll() {

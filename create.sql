@@ -12,8 +12,28 @@ create table Modulo (
     primary key (id));
 
 create table Modulo_habilidades (Modulo_id int8 not null, habilidades varchar(255));
-create table ModuloTrabalhador (id  bigserial not null, anotacao varchar(255), avaliacao varchar(255), funcao varchar(255), setor varchar(255), empresa_mod_trab_id int8 not null, modulo_mod_trab_id int8 not null, modulo_trabalhador_id int8, primary key (id));
-create table Trabalhador (id  bigserial not null, cpf varchar(255), nome varchar(255), dataAlteracao date, funcao varchar(255), setor varchar(255), empresa_id_trabalhador int8 not null, primary key (id));
+
+create table ModuloTrabalhador (
+    id  bigserial not null,
+    anotacao varchar(255),
+    avaliacao varchar(255),
+    funcao varchar(255),
+    setor varchar(255),
+    empresa_mod_trab_id int8 not null,
+    modulo_mod_trab_id int8 not null,
+    modulo_trabalhador_id int8,
+    primary key (id));
+
+create table Trabalhador (
+    id  bigserial not null,
+    cpf varchar(255),
+    nome varchar(255),
+    dataAlteracao date,
+    funcao varchar(255),
+    setor varchar(255),
+    empresa_id_trabalhador int8 not null,
+    primary key (id));
+
 
 create table Trilha (
     id  bigserial not null,
