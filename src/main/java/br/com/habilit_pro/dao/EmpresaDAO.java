@@ -1,16 +1,15 @@
 package br.com.habilit_pro.dao;
 
+import br.com.habilit_pro.dao.generic.Dao;
 import br.com.habilit_pro.models.Empresa;
 
 import javax.persistence.EntityManager;
 
 
-public class EmpresaDAO extends Dao<Empresa, Long>{
-
-    private EmpresaDAO() { }
+public class EmpresaDAO extends Dao<Empresa, Long> {
 
     public EmpresaDAO(EntityManager entityManager) {
-        super(entityManager, Empresa.class);
+        super(entityManager);
     }
 
     public Empresa update(Empresa empresaAtual, Empresa empresaFutura) {

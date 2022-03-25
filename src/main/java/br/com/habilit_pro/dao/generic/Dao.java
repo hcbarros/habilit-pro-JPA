@@ -1,8 +1,9 @@
-package br.com.habilit_pro.dao;
+package br.com.habilit_pro.dao.generic;
 
 import javax.persistence.EntityManager;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 
@@ -11,11 +12,10 @@ public abstract class Dao<T, I extends Serializable> {
     protected EntityManager entityManager;
     private Class<T> classe;
 
-    public Dao() { }
-
-    public Dao(EntityManager entityManager, Class<T> classe) {
+    public Dao(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.classe = classe;
+        classe = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
+                .getActualTypeArguments()[0];
     }
 
     public T getById(I id) {

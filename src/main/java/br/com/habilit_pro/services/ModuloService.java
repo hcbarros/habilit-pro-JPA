@@ -3,16 +3,15 @@ package br.com.habilit_pro.services;
 import br.com.habilit_pro.dao.ModuloDAO;
 import br.com.habilit_pro.enums.Status;
 import br.com.habilit_pro.models.Modulo;
+import br.com.habilit_pro.services.generic.Service;
 
 import javax.persistence.EntityManager;
 
 
-public class ModuloService extends Service<Modulo, Long>{
-
-    private ModuloService() { }
+public class ModuloService extends Service<Modulo, Long> {
 
     public ModuloService(EntityManager entityManager) {
-        super(entityManager, Modulo.class, new ModuloDAO(entityManager));
+        super(entityManager, new ModuloDAO(entityManager));
     }
 
 

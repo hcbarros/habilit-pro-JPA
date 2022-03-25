@@ -35,7 +35,8 @@ public class Trilha implements Serializable {
     @JoinColumn(name = "empresa_id_trilha", referencedColumnName = "id")
     private Empresa empresa;
 
-    @OneToMany(mappedBy = "trilha", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "trilha", cascade = CascadeType.REMOVE,
+                fetch = FetchType.EAGER)
     private Set<Modulo> modulos;
 
 

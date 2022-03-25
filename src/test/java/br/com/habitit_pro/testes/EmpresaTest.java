@@ -1,33 +1,32 @@
-package br.com.habitit_pro;
+package br.com.habitit_pro.testes;
 
 import br.com.habilit_pro.enums.Regional;
 import br.com.habilit_pro.enums.Segmento;
 import br.com.habilit_pro.enums.TipoEmpresa;
 import br.com.habilit_pro.models.Empresa;
 
+import br.com.habilit_pro.models.Trilha;
 import br.com.habilit_pro.services.EmpresaService;
+import br.com.habitit_pro.testes.generic.GenericTest;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EmpresaTest extends GenericTest {
-
-    @BeforeClass
-    public static void setUpClass() {
-        service = getService(EmpresaService.class);
-    }
+public class EmpresaTest extends GenericTest<EmpresaService> {
 
     @Test
     public void _01_deveRetornarEmpresaPorId() {
-        Empresa empresa = (Empresa) service.getById(1L);
+        Empresa empresa = service.getById(1L);
         assertEquals(empresa.getNome(), "Tabajara LTDA");
         assertEquals(empresa.getCnpj(), "80.641.905/0001-80");
     }
@@ -57,7 +56,7 @@ public class EmpresaTest extends GenericTest {
                 TipoEmpresa.MATRIZ,"nome_invisível", Segmento.SANEAMENTO_BASICO,
                 "SC", "Florianópolis", Regional.LITORAL_SUL);
         service.create(empresa);
-        service = getService(EmpresaService.class);
+        service = getService();
 
         List<Empresa> empresas = service.listByName("Empresa_teste");
 
@@ -100,8 +99,15 @@ public class EmpresaTest extends GenericTest {
     @Test
     public void _08_deveDeletarUmaEmpresaRetornandoNuloCasoTenteConsultarNovamente() {
         service.delete(4L);
-        Empresa empresa = (Empresa) getService(EmpresaService.class).getById(4L);
+        Empresa empresa = (Empresa) getService().getById(4L);
         assertNull(empresa);
+    }
+
+    @Test
+    public void _09_deveSerPossivelAssociarTrilhasAUmaEmpresa() {
+        Empresa empresa = (Empresa) service.getById(1L);
+        Set<Trilha> trilhas = empresa.getTrilhas();
+        assertFalse(trilhas.isEmpty());
     }
 
 

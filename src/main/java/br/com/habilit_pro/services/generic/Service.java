@@ -1,6 +1,6 @@
-package br.com.habilit_pro.services;
+package br.com.habilit_pro.services.generic;
 
-import br.com.habilit_pro.dao.Dao;
+import br.com.habilit_pro.dao.generic.Dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 
 import java.io.Serializable;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 
@@ -19,15 +20,12 @@ public abstract class Service<T, I extends Serializable> {
     private String nClass;
     public final Logger LOG;
 
-    public Service() {
-        LOG = LogManager.getLogger(getClass());
-    }
-
-    public Service(EntityManager entityManager, Class<T> classe, Dao<T,I> dao) {
+    public Service(EntityManager entityManager, Dao<T,I> dao) {
         this.entityManager = entityManager;
         LOG = LogManager.getLogger(getClass());
         this.dao = dao;
-        nClass = classe.getSimpleName();
+        nClass = ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
+                        .getActualTypeArguments()[0]).getSimpleName();
     }
 
     public T getById(I id) {

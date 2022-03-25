@@ -55,7 +55,8 @@ public class Empresa implements Serializable {
     @Enumerated(EnumType.STRING)
     private Regional regional;
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "empresa",
+            cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<Trilha> trilhas;
 
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)

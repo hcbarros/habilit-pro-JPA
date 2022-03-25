@@ -1,5 +1,6 @@
 package br.com.habilit_pro.dao;
 
+import br.com.habilit_pro.dao.generic.Dao;
 import br.com.habilit_pro.models.pessoa.trabalhador.ModuloTrabalhador;
 
 import javax.persistence.EntityManager;
@@ -7,10 +8,8 @@ import javax.persistence.EntityManager;
 
 public class ModuloTrabalhadorDAO extends Dao<ModuloTrabalhador, Long> {
 
-    private ModuloTrabalhadorDAO() { }
-
     public ModuloTrabalhadorDAO(EntityManager entityManager) {
-        super(entityManager, ModuloTrabalhador.class);
+        super(entityManager);
     }
 
     @Override

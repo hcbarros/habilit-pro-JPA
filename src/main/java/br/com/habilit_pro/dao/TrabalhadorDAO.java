@@ -1,16 +1,14 @@
 package br.com.habilit_pro.dao;
 
-import br.com.habilit_pro.models.pessoa.Usuario;
+import br.com.habilit_pro.dao.generic.Dao;
 import br.com.habilit_pro.models.pessoa.trabalhador.Trabalhador;
 
 import javax.persistence.EntityManager;
 
-public class TrabalhadorDAO extends Dao<Trabalhador, Long>{
-
-    private TrabalhadorDAO() { }
+public class TrabalhadorDAO extends Dao<Trabalhador, Long> {
 
     public TrabalhadorDAO(EntityManager entityManager) {
-        super(entityManager, Trabalhador.class);
+        super(entityManager);
     }
 
     public Trabalhador update(Trabalhador trabalhadorAtual, Trabalhador trabalhadorFuturo) {

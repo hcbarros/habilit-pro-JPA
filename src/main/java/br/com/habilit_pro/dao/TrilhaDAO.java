@@ -1,6 +1,6 @@
 package br.com.habilit_pro.dao;
 
-import br.com.habilit_pro.dao.Dao;
+import br.com.habilit_pro.dao.generic.Dao;
 import br.com.habilit_pro.models.Trilha;
 
 import javax.persistence.*;
@@ -8,10 +8,8 @@ import javax.persistence.*;
 
 public class TrilhaDAO extends Dao<Trilha, Long> {
 
-    private TrilhaDAO() { }
-
     public TrilhaDAO(EntityManager entityManager) {
-        super(entityManager, Trilha.class);
+        super(entityManager);
     }
 
     private long countByOcupacaoAndNomeEmpresa(Trilha trilha) {
