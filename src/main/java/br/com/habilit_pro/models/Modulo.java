@@ -27,7 +27,7 @@ public class Modulo implements Serializable {
             message="Informe o nome do módulo!")
     private String nome;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> habilidades;
 
     private String tarefaValidacao;
@@ -58,7 +58,7 @@ public class Modulo implements Serializable {
         this.nome = nome;
         setTarefaValidacao(tarefaValidacao);
         this.habilidades = new HashSet<>();
-        addHabilidades(habilidades);
+        definirHabilidades(true, habilidades);
     }
 
 
@@ -124,11 +124,14 @@ public class Modulo implements Serializable {
         return habilidades;
     }
 
-    public void addHabilidades(String ...habilidades) {
+    public void definirHabilidades(boolean add, String ...habilidades) {
         if(habilidades != null) {
             Arrays.asList(habilidades).forEach(h -> {
-                if(h != null && !this.habilidades.contains(h.toUpperCase())) {
+                if(h != null && add && !this.habilidades.contains(h.toUpperCase())) {
                     this.habilidades.add(h.toUpperCase());
+                }
+                else if(h != null && !add && this.habilidades.contains(h.toUpperCase())) {
+                    this.habilidades.remove(h.toUpperCase());
                 }
             });
         }
@@ -168,7 +171,8 @@ public class Modulo implements Serializable {
         for(String h: habilidades) {
             textoHabilidades += "\n\t- "+h;
         }
-        return "\nNome: "+nome +
+        return "\nId: " + id +
+                "\nNome: "+nome +
                 ((tarefaValidacao == null || tarefaValidacao.isEmpty() || tarefaValidacao.isBlank()) ?
                         "" : "\nTarefa_validação: "+tarefaValidacao) +
                 (status == null ? "" : "\nStatus: "+ status.getNome()) +

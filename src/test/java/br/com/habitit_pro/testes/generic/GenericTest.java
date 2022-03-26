@@ -6,7 +6,9 @@ import br.com.habilit_pro.services.generic.Service;
 import org.junit.Before;
 
 import javax.persistence.EntityManager;
+
 import java.lang.reflect.ParameterizedType;
+
 
 public class GenericTest<T extends Service> {
 
@@ -21,18 +23,22 @@ public class GenericTest<T extends Service> {
 
     @Before
     public void setUp() throws Exception {
-        service = getService();
+        getService();
     }
 
     public T getService() {
+        service = getStaticService(classe);
+        return service;
+    }
+
+    public static <T> T getStaticService(Class<T> tClass) {
         try {
-            service = classe.getDeclaredConstructor(EntityManager.class)
+            return tClass.getDeclaredConstructor(EntityManager.class)
                     .newInstance(factory.getEntityManager());
         }
         catch (Exception ex) {
             throw new RuntimeException("ERRO: "+ex.getMessage());
         }
-        return (T) service;
     }
 
 }

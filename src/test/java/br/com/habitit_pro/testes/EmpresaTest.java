@@ -8,7 +8,7 @@ import br.com.habilit_pro.models.Empresa;
 import br.com.habilit_pro.models.Trilha;
 import br.com.habilit_pro.services.EmpresaService;
 import br.com.habitit_pro.testes.generic.GenericTest;
-import org.junit.BeforeClass;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -18,6 +18,7 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -51,18 +52,16 @@ public class EmpresaTest extends GenericTest<EmpresaService> {
     }
 
     @Test
-    public void _04_deveCriarUmaEmpŕesa() {
+    public void _04_deveCriarUmaEmpresa() {
         Empresa empresa = new Empresa("Empresa_teste", "29.615.423/0001-06",
                 TipoEmpresa.MATRIZ,"nome_invisível", Segmento.SANEAMENTO_BASICO,
                 "SC", "Florianópolis", Regional.LITORAL_SUL);
         service.create(empresa);
-        service = getService();
 
-        List<Empresa> empresas = service.listByName("Empresa_teste");
-
-        assertEquals(empresas.get(0).getNome(), "Empresa_teste");
-        assertEquals(empresas.get(0).getCnpj(), "29.615.423/0001-06");
-        assertNull(empresas.get(0).getNomeFilial());
+        assertNotNull(empresa.getId());
+        assertEquals(empresa.getNome(), "Empresa_teste");
+        assertEquals(empresa.getCnpj(), "29.615.423/0001-06");
+        assertNull(empresa.getNomeFilial());
     }
 
     @Test
@@ -71,7 +70,7 @@ public class EmpresaTest extends GenericTest<EmpresaService> {
                 TipoEmpresa.FILIAL,"nome_filial_visivel", Segmento.CELULOSE_E_PAPEL,
                 "SC", "Tubarão", Regional.NORTE_NORDESTE);
 
-        Empresa empresa_alterada = (Empresa) service.update(4L, empresa);
+        Empresa empresa_alterada = service.update(4L, empresa);
 
         assertEquals(empresa_alterada.getNome(), "Empresa_teste_alterada");
         assertEquals(empresa_alterada.getCnpj(), "29.615.423/0001-06");
@@ -99,13 +98,13 @@ public class EmpresaTest extends GenericTest<EmpresaService> {
     @Test
     public void _08_deveDeletarUmaEmpresaRetornandoNuloCasoTenteConsultarNovamente() {
         service.delete(4L);
-        Empresa empresa = (Empresa) getService().getById(4L);
+        Empresa empresa = getService().getById(4L);
         assertNull(empresa);
     }
 
     @Test
     public void _09_deveSerPossivelAssociarTrilhasAUmaEmpresa() {
-        Empresa empresa = (Empresa) service.getById(1L);
+        Empresa empresa = service.getById(1L);
         Set<Trilha> trilhas = empresa.getTrilhas();
         assertFalse(trilhas.isEmpty());
     }

@@ -24,9 +24,9 @@ insert into Usuario_perfis (Usuario_id, perfis) values (2, 2);
 insert into Usuario_perfis (Usuario_id, perfis) values (3, 1);
 insert into Usuario_perfis (Usuario_id, perfis) values (3, 0);
 
-insert into Modulo_habilidades (Modulo_id, habilidades) values (1, 'Raciocínio lógico');
-insert into Modulo_habilidades (Modulo_id, habilidades) values (2, 'Inteligência emocional');
-insert into Modulo_habilidades (Modulo_id, habilidades) values (3, 'Concentração');
+insert into Modulo_habilidades (Modulo_id, habilidades) values (1, 'RACIOCÍNIO LÓGICO');
+insert into Modulo_habilidades (Modulo_id, habilidades) values (2, 'INTELIGÊNCIA EMOCIONAL');
+insert into Modulo_habilidades (Modulo_id, habilidades) values (3, 'CONCENTRAÇÂO');
 
 insert into ModuloTrabalhador (avaliacao, funcao, setor, empresa_mod_trab_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_3','Programador I', 'T.I', 1, 1, 1);
 insert into ModuloTrabalhador (avaliacao, funcao, setor, empresa_mod_trab_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_4','Analista de RH', 'RH', 2, 2, 2);
