@@ -1,12 +1,15 @@
 package br.com.habilit_pro.services;
 
+import br.com.habilit_pro.dao.ModuloDAO;
 import br.com.habilit_pro.dao.TrabalhadorDAO;
-import br.com.habilit_pro.models.Trilha;
+import br.com.habilit_pro.enums.Status;
+import br.com.habilit_pro.models.Modulo;
+import br.com.habilit_pro.models.pessoa.trabalhador.ModuloTrabalhador;
 import br.com.habilit_pro.models.pessoa.trabalhador.Trabalhador;
 import br.com.habilit_pro.services.generic.Service;
 
 import javax.persistence.EntityManager;
-import java.util.List;
+import java.time.OffsetDateTime;
 
 public class TrabalhadorService extends Service<Trabalhador, Long> {
 
@@ -14,19 +17,34 @@ public class TrabalhadorService extends Service<Trabalhador, Long> {
         super(entityManager, new TrabalhadorDAO(entityManager));
     }
 
+    public Trabalhador addModuloTrabalhador(Long idTrabalhador, ModuloTrabalhador mt) {
+        return updateModuloTrabalhador(idTrabalhador, mt, true);
+    }
 
-    public List<Trilha> listTrilhasByTrabalhadorId(Long id) {
+    public Trabalhador removeModuloTrabalhador(Long idTrabalhador, ModuloTrabalhador mt) {
+        return updateModuloTrabalhador(idTrabalhador, mt, false);
+    }
+
+    private Trabalhador updateModuloTrabalhador(Long idTrabalhador, ModuloTrabalhador mt, boolean flag) {
         try {
-            LOG.info("Preparação para listar trilhas de um trabalhador");
+            LOG.info("Preparação para atualizar trabalhador");
             getBeginTransaction();
-            List<Trilha> list = ((TrabalhadorDAO) dao).listTrilhasByTrabalhadorId(id);
+            Trabalhador trabalhador = dao.getById(idTrabalhador);
+            trabalhador.getModulosTrabalhador().forEach(m -> {
+                if(flag && m.getModulo().getId() == mt.getModulo().getId()) {
+                    throw new RuntimeException("O trabalhador informado já possui esse módulo em seu cadastro!");
+                }
+            });
+            Trabalhador response = ((TrabalhadorDAO) dao).updateModuloTrabalhador(trabalhador, mt, flag);
             commitAndCloseTransaction();
-            return list;
+            LOG.info("Trabalhador atualizado com sucesso!");
+            return response;
         }
         catch (Exception ex) {
             LOG.error("ERRO: "+ex.getMessage());
             throw new RuntimeException("Ocorreu o seguinte erro: "+ex.getMessage());
         }
     }
+
 
 }

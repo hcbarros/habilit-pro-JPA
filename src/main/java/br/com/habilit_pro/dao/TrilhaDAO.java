@@ -4,6 +4,7 @@ import br.com.habilit_pro.dao.generic.Dao;
 import br.com.habilit_pro.models.Trilha;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 public class TrilhaDAO extends Dao<Trilha, Long> {
@@ -24,8 +25,7 @@ public class TrilhaDAO extends Dao<Trilha, Long> {
 
     public void create(Trilha trilha) {
         long count = countByOcupacaoAndNomeEmpresa(trilha);
-        trilha.setNome(count);
-        trilha.setApelido(count);
+        trilha.definirNomes(count);
         entityManager.persist(trilha);
     }
 
@@ -37,12 +37,17 @@ public class TrilhaDAO extends Dao<Trilha, Long> {
             long count = countByOcupacaoAndNomeEmpresa(trilhaFutura);
             trilhaAtual.setEmpresa(trilhaFutura.getEmpresa());
             trilhaAtual.setOcupacao(trilhaFutura.getOcupacao());
-            trilhaAtual.setNome(count);
-            trilhaAtual.setApelido(count);
+            trilhaAtual.definirNomes(count);
         }
         return entityManager.merge(trilhaAtual);
     }
 
-
+    public List<Trilha> listTrilhasByTrabalhadorId(Long id) {
+        return entityManager.createQuery(
+                        "select distinct mt.modulo.trilha from ModuloTrabalhador mt inner join " +
+                                "Trabalhador t on t.cpf = mt.cpf where t.id = :id", Trilha.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
 
 }

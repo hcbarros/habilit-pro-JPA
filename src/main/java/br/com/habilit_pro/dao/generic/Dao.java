@@ -38,10 +38,6 @@ public abstract class Dao<T, I extends Serializable> {
         entityManager.persist(t);
     }
 
-    public T update(T t) {
-        return entityManager.merge(t);
-    }
-
     public abstract T update(T t1, T t2);
 
     public void delete(T t) {

@@ -11,6 +11,7 @@ import java.time.OffsetDateTime;
 public class ModuloService extends Service<Modulo, Long> {
 
     public ModuloService(EntityManager entityManager) {
+
         super(entityManager, new ModuloDAO(entityManager));
     }
 

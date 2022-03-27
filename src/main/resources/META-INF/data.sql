@@ -28,6 +28,7 @@ insert into Modulo_habilidades (Modulo_id, habilidades) values (1, 'RACIOCÍNIO 
 insert into Modulo_habilidades (Modulo_id, habilidades) values (2, 'INTELIGÊNCIA EMOCIONAL');
 insert into Modulo_habilidades (Modulo_id, habilidades) values (3, 'CONCENTRAÇÂO');
 
-insert into ModuloTrabalhador (avaliacao, trabalhador_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_3', 1, 1, 1);
-insert into ModuloTrabalhador (avaliacao, trabalhador_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_4', 2, 2, 2);
-insert into ModuloTrabalhador (avaliacao, trabalhador_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_4', 3, 3, 3);
+insert into ModuloTrabalhador (cpf, funcao, setor, avaliacao, modulo_mod_trab_id, modulo_trabalhador_id) values ('554.250.480-92', 'Programador I', 'T.I.', 'NOTA_3', 1, 1);
+insert into ModuloTrabalhador (cpf, funcao, setor, avaliacao, modulo_mod_trab_id, modulo_trabalhador_id) values ('865.177.570-90', 'Analista de RH', 'RH', 'NOTA_4', 2, 2);
+insert into ModuloTrabalhador (cpf, funcao, setor, avaliacao, modulo_mod_trab_id, modulo_trabalhador_id) values ('468.521.560-52', 'Motorista', 'Manutenção', 'NOTA_4', 3, 3);
+

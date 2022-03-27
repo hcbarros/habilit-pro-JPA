@@ -1,18 +1,24 @@
 package br.com.habitit_pro.testes;
 
+import br.com.habilit_pro.enums.Avaliacao;
 import br.com.habilit_pro.models.Empresa;
 import br.com.habilit_pro.models.Modulo;
 import br.com.habilit_pro.models.Trilha;
+import br.com.habilit_pro.models.pessoa.trabalhador.ModuloTrabalhador;
 import br.com.habilit_pro.models.pessoa.trabalhador.Trabalhador;
+import br.com.habilit_pro.services.ModuloService;
 import br.com.habilit_pro.services.TrabalhadorService;
+import br.com.habilit_pro.services.TrilhaService;
 import br.com.habitit_pro.testes.generic.GenericTest;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TrabalhadorTest extends GenericTest<TrabalhadorService> {
 
     @Test
@@ -73,7 +79,27 @@ public class TrabalhadorTest extends GenericTest<TrabalhadorService> {
     }
 
     @Test
-    public void _06_deveApresentarUmaDataQuandoAFuncaoDoTrabalhadorForAlterada() {
+    public void _06_deveAtualizarUmTrabalhador() {
+        Trabalhador t1 = service.getById(3L);
+        Trabalhador t2 = getService().getById(4L);
+
+        Trabalhador novo = new Trabalhador();
+        novo.setNome("Nome teste");
+        novo.setSetor("Fábrica de software");
+        novo.setFuncao("Mecânico");
+        novo.setEmpresa(t1.getEmpresa());
+
+        Trabalhador resposnse = getService().update(t2.getId(), novo);
+
+        assertNotEquals(t2.getNome(), resposnse.getNome());
+        assertNotEquals(t2.getSetor(), resposnse.getSetor());
+        assertNotEquals(t2.getFuncao(), resposnse.getFuncao());
+        assertNotEquals(t2.getEmpresa().getNome(), resposnse.getEmpresa().getNome());
+    }
+
+
+    @Test
+    public void _07_deveApresentarUmaDataQuandoAFuncaoDoTrabalhadorForAlterada() {
         Trabalhador trabalhador = service.getById(1L);
 
         Trabalhador trab_Teste = new Trabalhador("Teste", "619.811.200-41",
@@ -90,29 +116,72 @@ public class TrabalhadorTest extends GenericTest<TrabalhadorService> {
     }
 
     @Test
-    public void _07_deveListarTrilhasAssociadasAUmTrabalhador() {
-        List<Trilha> trilhas = (List<Trilha>) service.listTrilhasByTrabalhadorId(1L);
-
-
-        System.out.println(trilhas);
-
-        Trabalhador t1 = getService().getById(1L);
-
-        System.out.println(t1.getModulosTrabalhador());
-
-
+    public void _08_devePermitirEdicaoEmpresaTrabalhadorSemAfetarHistoricoTrilhasAnteriores() {
+        Trabalhador t1 = service.getById(1L);
         Trabalhador t2 = getService().getById(2L);
 
+        Empresa empresaAntiga = t1.getEmpresa();
+
         t1.setEmpresa(t2.getEmpresa());
-        Trabalhador novoT1 = getService().update(t1.getId(), t1);
+        Trabalhador t1Atualizado = getService().update(t1.getId(), t1);
 
-        trilhas = (List<Trilha>) getService().listTrilhasByTrabalhadorId(novoT1.getId());
+        Empresa empresaNova = t1Atualizado.getEmpresa();
 
-        System.out.println(trilhas);
-        System.out.println(novoT1.getModulosTrabalhador());
+        List<Trilha> trilhasT1Atualizado = getStaticService(TrilhaService.class)
+                .listTrilhasByTrabalhadorId(t1Atualizado.getId());
 
-
-
+        assertNotEquals(empresaAntiga.getNome(), empresaNova.getNome());
+        assertEquals(trilhasT1Atualizado.get(0).getEmpresa().getNome(), empresaAntiga.getNome());
     }
+
+    @Test
+    public void _09_devePermitirEdicaoSetorEFuncaoTrabalhadorSemAfetarHistoricoTrilhasAnteriores() {
+        Trabalhador tAntigo = service.getById(1L);
+
+        tAntigo.setFuncao("Analista de negócios");
+        tAntigo.setSetor("Financiamento");
+
+        Trabalhador tAtual = getService().update(tAntigo.getId(), tAntigo);
+
+        tAtual.getModulosTrabalhador().forEach(mt -> {
+            assertNotEquals(mt.getFuncao(), tAntigo.getFuncao());
+            assertNotEquals(mt.getSetor(), tAntigo.getSetor());
+        });
+    }
+
+    @Test
+    public void _10_devePermitirAdicionarModuloQueOTrabalhadorParticipaOuParticipou() {
+        Trabalhador trabalhador = service.getById(1L);
+
+        Modulo modulo = getStaticService(ModuloService.class).getById(2L);
+
+        ModuloTrabalhador mt = new ModuloTrabalhador(modulo, Avaliacao.NOTA_5, "Primeira anotação");
+
+        Trabalhador response = getService().addModuloTrabalhador(trabalhador.getId(), mt);
+
+        assertNotEquals(trabalhador.getModulosTrabalhador().size(), response.getModulosTrabalhador().size());
+    }
+
+    @Test
+    public void _11_devePermitirRemoverModuloQueOTrabalhadorParticipaOuParticipou() {
+        Trabalhador trabalhador = service.getById(1L);
+
+        ModuloTrabalhador mt = new ModuloTrabalhador();
+        mt.setId(4L);
+        Trabalhador response = getService().removeModuloTrabalhador(trabalhador.getId(), mt);
+
+        assertNotEquals(trabalhador.getModulosTrabalhador().size(), response.getModulosTrabalhador().size());
+    }
+
+    @Test
+    public void _12_deveDeletarUmTrabalhador() {
+        Trabalhador trabalhador = service.getById(1L);
+        getService().delete(trabalhador.getId());
+        Trabalhador trabalhadorInexistente = getService().getById(1L);
+
+        assertNotNull(trabalhador.getId());
+        assertNull(trabalhadorInexistente);
+    }
+
 
 }

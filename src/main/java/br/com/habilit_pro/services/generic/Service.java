@@ -4,6 +4,8 @@ import br.com.habilit_pro.dao.generic.Dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import javax.persistence.EntityManager;
 
@@ -21,6 +23,8 @@ public abstract class Service<T, I extends Serializable> {
     public final Logger LOG;
 
     public Service(EntityManager entityManager, Dao<T,I> dao) {
+//        Session session = entityManager.unwrap(org.hibernate.Session.class);
+//        SessionFactory factory = session.getSessionFactory();
         this.entityManager = entityManager;
         LOG = LogManager.getLogger(getClass());
         this.dao = dao;

@@ -7,9 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.time.Period;
 
 import java.util.Arrays;
 import java.util.HashSet;

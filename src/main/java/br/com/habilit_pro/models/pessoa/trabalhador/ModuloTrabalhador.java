@@ -1,8 +1,8 @@
 package br.com.habilit_pro.models.pessoa.trabalhador;
 
 import br.com.habilit_pro.enums.Avaliacao;
-import br.com.habilit_pro.models.Empresa;
 import br.com.habilit_pro.models.Modulo;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,6 +14,15 @@ public class ModuloTrabalhador implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @CPF
+    private String cpf;
+
+    @NotNull(message = "A função do trabalhador durante o mulo não deve ser nula!")
+    private String funcao;
+
+    @NotNull(message = "O setor que o trabalhador atua durante o módulo não deve ser nulo!")
+    private String setor;
 
     @NotNull(message = "Módulos do trabalhador não devem ser nulos!")
     @OneToOne
@@ -28,11 +37,17 @@ public class ModuloTrabalhador implements Serializable {
 
     public ModuloTrabalhador() { }
 
-    public ModuloTrabalhador(Modulo modulo, Avaliacao avaliacao, String anotacao, Trabalhador t) {
+    public ModuloTrabalhador(Modulo modulo, Avaliacao avaliacao, String anotacao) {
         setModulo(modulo);
         this.avaliacao = avaliacao;
         this.anotacao = anotacao;
-        this.trabalhador = t;
+    }
+
+    public ModuloTrabalhador(Modulo modulo, Avaliacao avaliacao, String anotacao, Trabalhador t) {
+        this(modulo, avaliacao, anotacao);
+        setCpf(t.getCpf());
+        this.funcao = t.getFuncao();
+        this.setor = t.getSetor();
     }
 
 
@@ -68,12 +83,31 @@ public class ModuloTrabalhador implements Serializable {
         this.anotacao = anotacao;
     }
 
-    public Trabalhador getTrabalhador() {
-        return trabalhador;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setTrabalhador(Trabalhador trabalhador) {
-        this.trabalhador = trabalhador;
+    public void setCpf(String cpf) {
+        if(cpf != null && (cpf = cpf.replaceAll("[^\\d]", "")).matches("\\d{11}")) {
+            this.cpf = cpf.substring(0,3)+"."+ cpf.substring(3,6)+"."+
+                    cpf.substring(6,9)+"-"+cpf.substring(9,11);
+        }
+    }
+
+    public String getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(String funcao) {
+        this.funcao = funcao;
+    }
+
+    public String getSetor() {
+        return setor;
+    }
+
+    public void setSetor(String setor) {
+        this.setor = setor;
     }
 
     @Override
@@ -83,7 +117,8 @@ public class ModuloTrabalhador implements Serializable {
                 (avaliacao == null ? "" : "\nAvaliação: "+avaliacao.getNome()) +
                 ((anotacao == null || anotacao.isEmpty()) ? "" : "\nAnotação: "+anotacao) +
                 "\nEmpresa que oferece o módulo: "+modulo.getTrilha().getEmpresa().getNome() +
-                "\nFunção exercida durante o múdulo: "+trabalhador.getFuncao() +
-                "\nSetor que contém o trabalhador: "+trabalhador.getSetor();
+                "\nCPF do trabalhador: "+cpf +
+                "\nFunção exercida durante o múdulo: "+funcao +
+                "\nSetor que contém o trabalhador: "+setor;
     }
 }

@@ -1,6 +1,8 @@
 package br.com.habilit_pro.models.pessoa.trabalhador;
 
+import br.com.habilit_pro.enums.Avaliacao;
 import br.com.habilit_pro.models.Empresa;
+import br.com.habilit_pro.models.Modulo;
 import br.com.habilit_pro.models.pessoa.Pessoa;
 import br.com.habilit_pro.models.pessoa.trabalhador.ModuloTrabalhador;
 import org.hibernate.validator.constraints.br.CPF;
@@ -26,22 +28,14 @@ public class Trabalhador extends Pessoa {
     @JoinColumn(name = "empresa_id_trabalhador", referencedColumnName = "id")
     private Empresa empresa;
 
-    @OneToMany(cascade = CascadeType.REMOVE,
+    @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "modulo_trabalhador_id")
     private Set<ModuloTrabalhador> modulosTrabalhador;
 
-//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-//    @JoinTable(name="trabalhador_trilha",
-//            joinColumns={@JoinColumn(name="trabalhador_id")},
-//            inverseJoinColumns={@JoinColumn(name="trilha_id")})
-//    private Set<Trilha> trilhas;
-
-
     public Trabalhador() {
         super();
         modulosTrabalhador = new HashSet<>();
-        //trilhas = new HashSet<>();
     }
 
     public Trabalhador(String nome, String cpf, Empresa empresa, String setor, String funcao) {
@@ -50,17 +44,8 @@ public class Trabalhador extends Pessoa {
         setSetor(setor);
         setFuncao(funcao);
         modulosTrabalhador = new HashSet<>();
-        //trilhas = new HashSet<>();
     }
 
-
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
 
     public String getSetor() {
         return setor;
@@ -101,13 +86,13 @@ public class Trabalhador extends Pessoa {
         this.modulosTrabalhador = modulosTrabalhador;
     }
 
-//    public Set<Trilha> getTrilhas() {
-//        return trilhas;
-//    }
-//
-//    public void setTrilhas(Set<Trilha> trilhas) {
-//        this.trilhas = trilhas;
-//    }
+    public void addModuloTrabalhador(Modulo modulo, Avaliacao avaliacao, String anotacao) {
+        modulosTrabalhador.add(new ModuloTrabalhador(modulo, avaliacao, anotacao,this));
+    }
+
+    public void removeModuloTrabalhador(Long id) {
+        modulosTrabalhador.removeIf(m -> m.getId() == id);
+    }
 
     @Override
     public String toString() {

@@ -85,17 +85,22 @@ public class Trilha implements Serializable {
         return nome;
     }
 
-    public void setNome(long count) {
-        nome = ocupacao.replace(" ","_") +
-                empresa.getNome().replace(" ","_") +
-                (count + 1) + LocalDate.now().getYear();
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getApelido() {
         return apelido;
     }
 
-    public void setApelido(long count) {
+    public void setApelido(String apelido){
+        this.apelido = apelido;
+    }
+
+    public void definirNomes(long count) {
+        nome = ocupacao.replace(" ","_") +
+                empresa.getNome().replace(" ","_") +
+                (count + 1) + LocalDate.now().getYear();
         apelido = ocupacao.replace(" ","_") + (count + 1);
     }
 
