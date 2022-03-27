@@ -26,13 +26,8 @@ public class ModuloTrabalhador implements Serializable {
     private String anotacao;
 
     @NotNull(message = "Empresa do trabalhador não deve ser nula!")
-    @OneToOne
-    @JoinColumn(name = "empresa_mod_trab_id")
-    private Empresa empresa;
-
-    private String funcao;
-
-    private String setor;
+    @ManyToOne
+    private Trabalhador trabalhador;
 
 
     public ModuloTrabalhador() { }
@@ -41,9 +36,7 @@ public class ModuloTrabalhador implements Serializable {
         setModulo(modulo);
         this.avaliacao = avaliacao;
         this.anotacao = anotacao;
-        this.empresa = t.getEmpresa();
-        this.funcao = t.getFuncao();
-        this.setor = t.getSetor();
+        this.trabalhador = t;
     }
 
 
@@ -79,16 +72,12 @@ public class ModuloTrabalhador implements Serializable {
         this.anotacao = anotacao;
     }
 
-    public Empresa getEmpresa() {
-        return empresa;
+    public Trabalhador getTrabalhador() {
+        return trabalhador;
     }
 
-    public String getFuncao() {
-        return funcao;
-    }
-
-    public String getSetor() {
-        return setor;
+    public void setTrabalhador(Trabalhador trabalhador) {
+        this.trabalhador = trabalhador;
     }
 
     @Override
@@ -97,8 +86,8 @@ public class ModuloTrabalhador implements Serializable {
         return "\nMódulo: "+ modulo.getNome() +
                 (avaliacao == null ? "" : "\nAvaliação: "+avaliacao.getNome()) +
                 ((anotacao == null || anotacao.isEmpty()) ? "" : "\nAnotação: "+anotacao) +
-                "\nEmpresa que oferece o módulo: "+empresa.getNome() +
-                "\nFunção exercida durante o múdulo: "+funcao +
-                "\nSetor que contém o trabalhador: "+setor;
+                "\nEmpresa que oferece o módulo: "+trabalhador.getEmpresa().getNome() +
+                "\nFunção exercida durante o múdulo: "+trabalhador.getFuncao() +
+                "\nSetor que contém o trabalhador: "+trabalhador.getSetor();
     }
 }

@@ -6,6 +6,7 @@ import br.com.habilit_pro.models.Modulo;
 import br.com.habilit_pro.services.generic.Service;
 
 import javax.persistence.EntityManager;
+import java.time.OffsetDateTime;
 
 public class ModuloService extends Service<Modulo, Long> {
 
@@ -13,13 +14,52 @@ public class ModuloService extends Service<Modulo, Long> {
         super(entityManager, new ModuloDAO(entityManager));
     }
 
+
+    public Modulo iniciarModulo(Long moduloId, OffsetDateTime inicio) {
+        return updateAll(moduloId, null, inicio,true,"Módulo iniciado com sucesso!");
+    }
+
+    public Modulo finalizarModulo(Long moduloId, OffsetDateTime fim) {
+        return updateAll(moduloId, null, fim,false,"Módulo finalizado com sucesso!");
+    }
+
     public Modulo updateStatus(Long moduloId, Status status) {
+        return updateAll(moduloId, status,null,false,"Status atualizado com sucesso!");
+    }
+
+    public Modulo addHabilidades(Long moduloId, String ...habilidades) {
+        return updateAll(moduloId,null,null,true, "Habilidades adicionadas com sucesso!",
+                habilidades);
+    }
+
+    public Modulo removeHabilidades(Long moduloId, String ...habilidades) {
+        return updateAll(moduloId,null,null,false, "Habilidades adicionadas com sucesso!",
+                habilidades);
+    }
+
+
+    private Modulo updateAll(Long moduloId, Status status, OffsetDateTime data,
+                             boolean flag, String texto, String ...habilidades) {
         try {
-            Modulo modulo = getById(moduloId);
+            LOG.info("Preparação para atualizar dados de módulo");
             getBeginTransaction();
-            Modulo response = ((ModuloDAO) dao).update(modulo, status);
+            Modulo modulo = dao.getById(moduloId);
+            Modulo response = null;
+            ModuloDAO moduloDAO = (ModuloDAO) dao;
+            if(status != null) {
+                response = ((ModuloDAO) dao).updateStatus(modulo, status);
+            }
+            else if(data != null) {
+                response = ((ModuloDAO) dao).updateData(modulo, flag, data);
+            }
+            else if(habilidades != null) {
+                response = ((ModuloDAO) dao).updateHabilidades(modulo, flag, habilidades);
+            }
+            else {
+                throw new RuntimeException("Não foi possível atualizar o módulo!");
+            }
             commitAndCloseTransaction();
-            LOG.info("Status atualizado com sucesso!");
+            LOG.info(texto);
             return response;
         }
         catch (Exception ex) {
@@ -28,19 +68,5 @@ public class ModuloService extends Service<Modulo, Long> {
         }
     }
 
-    public Modulo updateHabilidades(Long moduloId, boolean add, String ...habilidades) {
-        try {
-            Modulo modulo = getById(moduloId);
-            getBeginTransaction();
-            Modulo response = ((ModuloDAO) dao).update(modulo, add, habilidades);
-            commitAndCloseTransaction();
-            LOG.info("Status atualizado com sucesso!");
-            return response;
-        }
-        catch (Exception ex) {
-            LOG.error("ERRO: "+ex.getMessage());
-            throw new RuntimeException("Ocorreu o seguinte erro: "+ex.getMessage());
-        }
-    }
 
 }

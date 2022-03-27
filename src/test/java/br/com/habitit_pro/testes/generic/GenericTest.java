@@ -19,6 +19,7 @@ public class GenericTest<T extends Service> {
     public GenericTest() {
         classe = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
                 .getActualTypeArguments()[0];
+        getService();
     }
 
     @Before

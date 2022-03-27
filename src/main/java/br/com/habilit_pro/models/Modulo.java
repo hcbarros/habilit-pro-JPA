@@ -90,24 +90,14 @@ public class Modulo implements Serializable {
         return status;
     }
 
-    public void definirStatus(Status status) {
-        if(inicioAvaliacao != null) {
-            int periodo = Period.between(inicioAvaliacao.toLocalDate(), LocalDate.now()).getDays();
-            if(periodo >= prazo_limite) {
-                this.status = Status.FINALIZADO;
-            }
+    public void setStatus(Status status) {
+        if(status == Status.EM_FASE_AVALIACAO) {
+            setFimModulo(OffsetDateTime.now());
         }
-        if(status != null) {
-            if(status == Status.EM_FASE_AVALIACAO) {
-                inicioAvaliacao = OffsetDateTime.now();
-                fimModulo = OffsetDateTime.now();
-            }
-            else if(status == Status.EM_ANDAMENTO) {
-                inicioAvaliacao = null;
-                inicioModulo = OffsetDateTime.now();
-            }
-            this.status = status;
+        else if(status == Status.EM_ANDAMENTO) {
+            setInicioModulo(OffsetDateTime.now());
         }
+        else this.status = status;
     }
 
     public String getTarefaValidacao() {
@@ -115,9 +105,7 @@ public class Modulo implements Serializable {
     }
 
     public void setTarefaValidacao(String tarefaValidacao) {
-        if(tarefaValidacao != null) {
-            this.tarefaValidacao = tarefaValidacao;
-        }
+        this.tarefaValidacao = tarefaValidacao;
     }
 
     public Set<String> getHabilidades() {
@@ -126,14 +114,11 @@ public class Modulo implements Serializable {
 
     public void definirHabilidades(boolean add, String ...habilidades) {
         if(habilidades != null) {
-            Arrays.asList(habilidades).forEach(h -> {
-                if(h != null && add && !this.habilidades.contains(h.toUpperCase())) {
-                    this.habilidades.add(h.toUpperCase());
-                }
-                else if(h != null && !add && this.habilidades.contains(h.toUpperCase())) {
-                    this.habilidades.remove(h.toUpperCase());
-                }
-            });
+            if(add) {
+                this.habilidades.addAll(Arrays.asList(habilidades));
+                return;
+            }
+            this.habilidades.removeAll(Arrays.asList(habilidades));
         }
     }
 
@@ -154,7 +139,10 @@ public class Modulo implements Serializable {
     }
 
     public void setInicioModulo(OffsetDateTime inicioModulo) {
-        this.inicioModulo = inicioModulo;
+        if(inicioModulo != null) {
+            status = Status.EM_ANDAMENTO;
+            this.inicioModulo = inicioModulo;
+        }
     }
 
     public OffsetDateTime getFimModulo() {
@@ -162,7 +150,10 @@ public class Modulo implements Serializable {
     }
 
     public void setFimModulo(OffsetDateTime fimModulo) {
-        this.fimModulo = fimModulo;
+        if(fimModulo != null) {
+            status = Status.EM_FASE_AVALIACAO;
+            this.fimModulo = inicioAvaliacao = fimModulo;
+        }
     }
 
     @Override

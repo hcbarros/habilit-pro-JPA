@@ -3,6 +3,7 @@ package br.com.habilit_pro.models.pessoa.trabalhador;
 import br.com.habilit_pro.models.Empresa;
 import br.com.habilit_pro.models.pessoa.Pessoa;
 import br.com.habilit_pro.models.pessoa.trabalhador.ModuloTrabalhador;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,7 +26,8 @@ public class Trabalhador extends Pessoa {
     @JoinColumn(name = "empresa_id_trabalhador", referencedColumnName = "id")
     private Empresa empresa;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(cascade = CascadeType.REMOVE,
+            fetch = FetchType.EAGER)
     @JoinColumn(name = "modulo_trabalhador_id")
     private Set<ModuloTrabalhador> modulosTrabalhador;
 
@@ -106,7 +108,6 @@ public class Trabalhador extends Pessoa {
 //    public void setTrilhas(Set<Trilha> trilhas) {
 //        this.trilhas = trilhas;
 //    }
-
 
     @Override
     public String toString() {

@@ -97,9 +97,6 @@ public abstract class Service<T, I extends Serializable> {
         try {
             getBeginTransaction();
             T tAtual = dao.getById(id);
-            if(tAtual == null) {
-                throw new RuntimeException("Entidade '"+nClass+"' não encontrada!");
-            }
             T response = dao.update(tAtual, t);
             commitAndCloseTransaction();
             LOG.info("Entidade '"+nClass+"' atualizada com sucesso!");
@@ -120,9 +117,6 @@ public abstract class Service<T, I extends Serializable> {
         try {
             getBeginTransaction();
             T t = dao.getById(id);
-            if(t == null) {
-                throw new RuntimeException("Entidade '"+nClass+"' não encontrada!");
-            }
             dao.delete(t);
             commitAndCloseTransaction();
             LOG.info("Entidade '"+nClass+"' excluída com sucesso!");

@@ -1,8 +1,9 @@
 package br.com.habilit_pro.models.pessoa;
 
-import br.com.habilit_pro.annotations.CPF;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @MappedSuperclass
@@ -12,6 +13,7 @@ public abstract class Pessoa implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "O nome da pessoa não deve ser nulo!")
     private String nome;
 
     @CPF

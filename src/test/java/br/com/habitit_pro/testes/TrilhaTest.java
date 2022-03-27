@@ -101,9 +101,12 @@ public class TrilhaTest extends GenericTest<TrilhaService>  {
 
     @Test
     public void _08_deveDeletarUmaTrilhaRetornandoNuloCasoTenteConsultarNovamente() {
-        service.delete(5L);
-        Trilha trilha = getService().getById(5L);
-        assertNull(trilha);
+        Trilha trilha = service.getById(5L);
+        getService().delete(5L);
+        Trilha trilhaInexistente = getService().getById(5L);
+
+        assertNotNull(trilha.getId());
+        assertNull(trilhaInexistente);
     }
 
     @Test(expected = RuntimeException.class)

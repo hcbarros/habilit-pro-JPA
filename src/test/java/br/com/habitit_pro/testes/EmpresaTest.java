@@ -66,7 +66,7 @@ public class EmpresaTest extends GenericTest<EmpresaService> {
 
     @Test
     public void _05_deveAtualizarEmpresaEPermitirEdicaoDeNomeFilial() {
-        Empresa empresa = new Empresa("Empresa_teste_alterada", "29.615.423/0001-06",
+        Empresa empresa = new Empresa("Empresa_teste_alterada", null,
                 TipoEmpresa.FILIAL,"nome_filial_visivel", Segmento.CELULOSE_E_PAPEL,
                 "SC", "Tubarão", Regional.NORTE_NORDESTE);
 
@@ -80,7 +80,15 @@ public class EmpresaTest extends GenericTest<EmpresaService> {
     }
 
     @Test(expected = RuntimeException.class)
-    public void _06_deveLancarExcecaoCasoTenteCriarEmpresaComCnpjInvalido() {
+    public void _06_deveLancarExcecaoCasoTenteCriarEmpresaComCnpjJaCadastrado() {
+        Empresa empresa = new Empresa("Empresa_teste", "29.615.423/0001-06",
+                TipoEmpresa.MATRIZ,"nome_invisível", Segmento.SANEAMENTO_BASICO,
+                "SC", "Florianópolis", Regional.LITORAL_SUL);
+        service.create(empresa);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void _07_deveLancarExcecaoCasoTenteCriarEmpresaComCnpjInvalido() {
         Empresa empresa = new Empresa("Empresa_teste", "29.615.423/0001-00",
                 TipoEmpresa.MATRIZ,"nome_invisível", Segmento.SANEAMENTO_BASICO,
                 "SC", "Florianópolis", Regional.LITORAL_SUL);
@@ -88,7 +96,7 @@ public class EmpresaTest extends GenericTest<EmpresaService> {
     }
 
     @Test
-    public void _07_devemAsEmpresasApresentarCnpjComFormatoEspecifico() {
+    public void _08_devemAsEmpresasApresentarCnpjComFormatoEspecifico() {
         List<Empresa> empresas = service.listAll();
         empresas.forEach(e -> {
             assertTrue(e.getCnpj().matches("[\\d]{2}.[\\d]{3}.[\\d]{3}/[\\d]{4}-[\\d]{2}"));
@@ -96,14 +104,17 @@ public class EmpresaTest extends GenericTest<EmpresaService> {
     }
 
     @Test
-    public void _08_deveDeletarUmaEmpresaRetornandoNuloCasoTenteConsultarNovamente() {
-        service.delete(4L);
-        Empresa empresa = getService().getById(4L);
-        assertNull(empresa);
+    public void _09_deveDeletarUmaEmpresaRetornandoNuloCasoTenteConsultarNovamente() {
+        Empresa empresa = service.getById(4L);
+        getService().delete(4L);
+        Empresa empresaInexistente = getService().getById(4L);
+
+        assertNotNull(empresa.getId());
+        assertNull(empresaInexistente);
     }
 
     @Test
-    public void _09_deveSerPossivelAssociarTrilhasAUmaEmpresa() {
+    public void _10_deveSerPossivelAssociarTrilhasAUmaEmpresa() {
         Empresa empresa = service.getById(1L);
         Set<Trilha> trilhas = empresa.getTrilhas();
         assertFalse(trilhas.isEmpty());

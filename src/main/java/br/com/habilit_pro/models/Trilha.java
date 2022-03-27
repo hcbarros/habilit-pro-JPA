@@ -132,7 +132,7 @@ public class Trilha implements Serializable {
                "\nApelido da trilha: "+apelido +
                "\nOcupação: "+ocupacao +
                "\nNome da empresa: "+empresa.getNome() +
-               "\nCNPJ da empresa: "+empresa.getCnpj() +
+               "\nDocumento da empresa: "+empresa.getCnpj() +
                 (satisfacao == null ? "" : "\nNível de satisfação: "+ satisfacao.getNivel()) +
                 (anotacoes == null ? "" : "\nAnotações: "+ anotacoes);
     }

@@ -2,6 +2,7 @@ package br.com.habitit_pro;
 
 import br.com.habitit_pro.testes.EmpresaTest;
 import br.com.habitit_pro.testes.ModuloTest;
+import br.com.habitit_pro.testes.TrabalhadorTest;
 import br.com.habitit_pro.testes.TrilhaTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -11,7 +12,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({EmpresaTest.class,
                      TrilhaTest.class,
-                     ModuloTest.class})
+                     ModuloTest.class,
+                     TrabalhadorTest.class})
 
 public class TestSuite {
 

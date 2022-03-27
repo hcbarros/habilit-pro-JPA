@@ -11,7 +11,7 @@ insert into Modulo (trilha_id_modulo, prazo_limite, nome) values (1, 10, 'Orient
 insert into Modulo (trilha_id_modulo, prazo_limite, nome) values (2, 10, 'Relacionamento interpessoal');
 insert into Modulo (trilha_id_modulo, prazo_limite, nome) values (3, 10, 'Foco na atividade');
 
-insert into Trabalhador (cpf, nome, dataAlteracao, funcao, setor, empresa_id_trabalhador) values ('554.250.480-92', 'Alex', '2020-10-10', 'Programador I', 'T.I', 1);
+insert into Trabalhador (cpf, nome, dataAlteracao, funcao, setor, empresa_id_trabalhador) values ('554.250.480-92', 'Alex', '2020-10-10', 'Programador I', 'T.I.', 1);
 insert into Trabalhador (cpf, nome, dataAlteracao, funcao, setor, empresa_id_trabalhador) values ('865.177.570-90', 'Adriana', '2021-05-15', 'Analista de RH', 'RH', 2);
 insert into Trabalhador (cpf, nome, dataAlteracao, funcao, setor, empresa_id_trabalhador) values ('468.521.560-52', 'Rodrigo', '2022-01-22', 'Motorista', 'Manutenção', 3);
 
@@ -28,6 +28,6 @@ insert into Modulo_habilidades (Modulo_id, habilidades) values (1, 'RACIOCÍNIO 
 insert into Modulo_habilidades (Modulo_id, habilidades) values (2, 'INTELIGÊNCIA EMOCIONAL');
 insert into Modulo_habilidades (Modulo_id, habilidades) values (3, 'CONCENTRAÇÂO');
 
-insert into ModuloTrabalhador (avaliacao, funcao, setor, empresa_mod_trab_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_3','Programador I', 'T.I', 1, 1, 1);
-insert into ModuloTrabalhador (avaliacao, funcao, setor, empresa_mod_trab_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_4','Analista de RH', 'RH', 2, 2, 2);
-insert into ModuloTrabalhador (avaliacao, funcao, setor, empresa_mod_trab_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_4','Motorista', 'Manutenção', 3, 3, 3);
+insert into ModuloTrabalhador (avaliacao, trabalhador_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_3', 1, 1, 1);
+insert into ModuloTrabalhador (avaliacao, trabalhador_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_4', 2, 2, 2);
+insert into ModuloTrabalhador (avaliacao, trabalhador_id, modulo_mod_trab_id, modulo_trabalhador_id) values ('NOTA_4', 3, 3, 3);

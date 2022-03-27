@@ -1,10 +1,10 @@
 package br.com.habilit_pro.models;
 
-import br.com.habilit_pro.annotations.CNPJ;
 import br.com.habilit_pro.enums.Regional;
 import br.com.habilit_pro.enums.Segmento;
 import br.com.habilit_pro.enums.TipoEmpresa;
 import br.com.habilit_pro.models.pessoa.trabalhador.Trabalhador;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.*;
 
@@ -181,7 +181,7 @@ public class Empresa implements Serializable {
     public String toString() {
         return  "\nId: " + id +
                 "\nNome: " + nome +
-                "\nCNPJ: " + cnpj +
+                "\nDocumento: " + cnpj +
                 "\nTipo da empresa: " + tipo.getNome() +
                 (tipo == TipoEmpresa.FILIAL ? "\nNome da filial: " + nomeFilial : "") +
                 "\nSegmento: " + segmento.getNome() +
