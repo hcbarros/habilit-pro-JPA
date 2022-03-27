@@ -25,10 +25,6 @@ public class ModuloTrabalhador implements Serializable {
 
     private String anotacao;
 
-    @NotNull(message = "Empresa do trabalhador não deve ser nula!")
-    @ManyToOne
-    private Trabalhador trabalhador;
-
 
     public ModuloTrabalhador() { }
 
@@ -86,7 +82,7 @@ public class ModuloTrabalhador implements Serializable {
         return "\nMódulo: "+ modulo.getNome() +
                 (avaliacao == null ? "" : "\nAvaliação: "+avaliacao.getNome()) +
                 ((anotacao == null || anotacao.isEmpty()) ? "" : "\nAnotação: "+anotacao) +
-                "\nEmpresa que oferece o módulo: "+trabalhador.getEmpresa().getNome() +
+                "\nEmpresa que oferece o módulo: "+modulo.getTrilha().getEmpresa().getNome() +
                 "\nFunção exercida durante o múdulo: "+trabalhador.getFuncao() +
                 "\nSetor que contém o trabalhador: "+trabalhador.getSetor();
     }
