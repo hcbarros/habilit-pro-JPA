@@ -2,6 +2,7 @@ package br.com.habilit_pro.models.pessoa.trabalhador;
 
 import br.com.habilit_pro.enums.Avaliacao;
 import br.com.habilit_pro.models.Modulo;
+
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;

@@ -1,6 +1,7 @@
 package br.com.habilit_pro.models;
 
 import br.com.habilit_pro.enums.Status;
+import br.com.habilit_pro.models.pessoa.trabalhador.ModuloTrabalhador;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -45,6 +46,9 @@ public class Modulo implements Serializable {
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "trilha_id_modulo", referencedColumnName = "id")
     private Trilha trilha;
+
+    @OneToOne(mappedBy = "modulo", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private ModuloTrabalhador moduloTrabalhador;
 
 
     public Modulo() {
@@ -153,6 +157,15 @@ public class Modulo implements Serializable {
             this.fimModulo = inicioAvaliacao = fimModulo;
         }
     }
+
+    public ModuloTrabalhador getModuloTrabalhador() {
+        return moduloTrabalhador;
+    }
+
+    public void setModuloTrabalhador(ModuloTrabalhador moduloTrabalhador) {
+        this.moduloTrabalhador = moduloTrabalhador;
+    }
+
 
     @Override
     public String toString() {

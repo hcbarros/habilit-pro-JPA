@@ -1,15 +1,12 @@
 package br.com.habilit_pro.services;
 
-import br.com.habilit_pro.dao.ModuloDAO;
 import br.com.habilit_pro.dao.TrabalhadorDAO;
-import br.com.habilit_pro.enums.Status;
-import br.com.habilit_pro.models.Modulo;
 import br.com.habilit_pro.models.pessoa.trabalhador.ModuloTrabalhador;
 import br.com.habilit_pro.models.pessoa.trabalhador.Trabalhador;
 import br.com.habilit_pro.services.generic.Service;
 
 import javax.persistence.EntityManager;
-import java.time.OffsetDateTime;
+
 
 public class TrabalhadorService extends Service<Trabalhador, Long> {
 

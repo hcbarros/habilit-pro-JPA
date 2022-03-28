@@ -1,6 +1,8 @@
 package br.com.habilit_pro.models.pessoa;
 
 import br.com.habilit_pro.enums.Perfil;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -23,6 +25,8 @@ public class Usuario extends Pessoa {
     private String senha;
 
     @NotEmpty(message = "O usuário deve possuir algum perfil!")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn
     @ElementCollection(targetClass = Perfil.class, fetch = FetchType.EAGER)
     private Set<Perfil> perfis;
 

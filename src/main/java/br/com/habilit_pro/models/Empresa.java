@@ -55,12 +55,12 @@ public class Empresa implements Serializable {
     @Enumerated(EnumType.STRING)
     private Regional regional;
 
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
+    private Set<Trabalhador> trabalhadores;
+
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE,
             fetch = FetchType.EAGER)
     private Set<Trilha> trilhas;
-
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
-    private Set<Trabalhador> trabalhadores;
 
 
     public Empresa() {
@@ -160,20 +160,20 @@ public class Empresa implements Serializable {
         this.regional = regional;
     }
 
-    public Set<Trilha> getTrilhas() {
-        return trilhas;
-    }
-
-    public void setTrilhas(Set<Trilha> trilhas) {
-        this.trilhas = trilhas;
-    }
-
     public Set<Trabalhador> getTrabalhadores() {
         return trabalhadores;
     }
 
     public void setTrabalhadores(Set<Trabalhador> trabalhadores) {
         this.trabalhadores = trabalhadores;
+    }
+
+    public Set<Trilha> getTrilhas() {
+        return trilhas;
+    }
+
+    public void setTrilhas(Set<Trilha> trilhas) {
+        this.trilhas = trilhas;
     }
 
 
