@@ -146,7 +146,7 @@ public class Main {
 
         System.out.println("ACESSO LIBERADO!");
 
-        
+
         //DELETANDO QUASE TUDO, MENOS USUARIOS
 
         empresaService = new EmpresaService(factory.getEntityManager());
