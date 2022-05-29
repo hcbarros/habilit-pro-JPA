@@ -97,13 +97,6 @@ public class Trilha implements Serializable {
         this.apelido = apelido;
     }
 
-    public void definirNomes(long count) {
-        nome = ocupacao.replace(" ","_") +
-                empresa.getNome().replace(" ","_") +
-                (count + 1) + LocalDate.now().getYear();
-        apelido = ocupacao.replace(" ","_") + (count + 1);
-    }
-
     public Satisfacao getSatisfacao() {
         return satisfacao;
     }

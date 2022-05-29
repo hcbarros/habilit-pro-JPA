@@ -29,7 +29,6 @@ public class ModuloTest extends GenericTest<ModuloService> {
         Modulo modulo = service.getById(1L);
         assertEquals(modulo.getNome(), "Orientação a objetos");
         assertEquals(modulo.getPrazo_limite(), 10);
-        assertEquals(modulo.getTrilha().getNome(), "Trabalho_em_equipeTabajara_LTDA12022");
         assertTrue(modulo.getHabilidades().contains("RACIOCÍNIO LÓGICO"));
     }
 

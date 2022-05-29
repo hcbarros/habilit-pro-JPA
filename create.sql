@@ -41,3 +41,9 @@ insert into Modulo_habilidades (Modulo_id, habilidades) values (3, 'CONCENTRAÇ�
 insert into ModuloTrabalhador (cpf, funcao, setor, avaliacao, modulo_mod_trab_id, modulo_trabalhador_id) values ('554.250.480-92', 'Programador I', 'T.I.', 'NOTA_3', 1, 1);
 insert into ModuloTrabalhador (cpf, funcao, setor, avaliacao, modulo_mod_trab_id, modulo_trabalhador_id) values ('865.177.570-90', 'Analista de RH', 'RH', 'NOTA_4', 2, 2);
 insert into ModuloTrabalhador (cpf, funcao, setor, avaliacao, modulo_mod_trab_id, modulo_trabalhador_id) values ('468.521.560-52', 'Motorista', 'Manutenção', 'NOTA_4', 3, 3);
+
+CREATE OR REPLACE FUNCTION contar(ocup varchar, emp_id bigint) RETURNS integer AS $$ BEGIN return(select count(*) from Trilha where lower(ocupacao) = lower(ocup) and empresa_id_trilha = emp_id); END; $$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION define_nomes() RETURNS trigger LANGUAGE PLPGSQL AS $$ BEGIN update Trilha set nome = replace(ocupacao,' ','_') || replace((select nome from Empresa where id = empresa_id_trilha),' ','_') || contar(ocupacao, empresa_id_trilha) || extract(year from now()), apelido = replace(ocupacao,' ','_') || contar(ocupacao, empresa_id_trilha) where COALESCE(nome, '') = ''; RETURN NEW; END; $$;
+
+DROP TRIGGER IF EXISTS names_trigger ON Trilha;
+CREATE TRIGGER names_trigger AFTER INSERT OR UPDATE ON Trilha FOR EACH ROW EXECUTE PROCEDURE define_nomes();
